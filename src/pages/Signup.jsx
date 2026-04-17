@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
+
 import api from "../api/axios";
 
 export default function Signup() {
@@ -9,6 +11,7 @@ export default function Signup() {
   });
 
   const [msg, setMsg] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({
@@ -22,10 +25,14 @@ export default function Signup() {
 
     try {
       const response = await api.post("/auth/signup", form);
-      setMsg(response.data.message || "Account Created 🎉");
+      setMsg(response.data.message || "Account Created Successfully");
+      setTimeout(() => navigate("/login"), 1500);
+
+       
     } catch (err) {
       setMsg(err.response?.data?.message || "Something went wrong");
     }
+     
   };
 
   return (
@@ -57,7 +64,7 @@ export default function Signup() {
         </div>
       </div>
 
-      {/* RIGHT SIDE FORM */}
+      
       <div className="lg:w-1/2 w-full flex items-center justify-center bg-gradient-to-br from-orange-50 via-white to-blue-50 p-6">
 
         <div className="w-full max-w-md bg-white/80 backdrop-blur-xl border border-orange-200 shadow-2xl rounded-2xl p-8">
@@ -71,7 +78,7 @@ export default function Signup() {
             Sign up to start shopping
           </p>
 
-          {/* MESSAGE */}
+          
           {msg && (
             <div className="mb-4 text-center text-sm font-medium text-orange-600 bg-orange-50 p-2 rounded-lg">
               {msg}
@@ -112,7 +119,7 @@ export default function Signup() {
 
             <button
               type="submit"
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-semibold transition shadow-md"
+              className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-semibold transition shadow-md cursor-pointer"
             >
               Sign Up
             </button>

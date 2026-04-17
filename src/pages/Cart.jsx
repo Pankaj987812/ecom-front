@@ -35,12 +35,36 @@ export default function Cart() {
   };
 
   if (!cart) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-gray-500">
-        Loading your cart...
-      </div>
-    );
-  }
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center text-center px-4">
+
+      {/* Image */}
+      <img
+        src="https://blogzine.webestica.com/assets/images/icon/empty-cart.svg"
+        alt="Empty Cart"
+        className="w-1000 h-100 mb-6 opacity-80"
+      />
+
+      {/* Message */}
+      <h2 className="text-2xl font-semibold text-gray-700 mb-2">
+        Your Cart is Empty
+      </h2>
+
+      <p className="text-gray-500 mb-6">
+        Looks like you haven’t added anything yet.
+      </p>
+
+      {/* Button */}
+      <a
+        href="/"
+        className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition"
+      >
+        Continue Shopping
+      </a>
+
+    </div>
+  );
+}
 
   const total = cart.items.reduce(
     (sum, item) => sum + item.productId.price * item.quantity,
@@ -159,8 +183,22 @@ export default function Cart() {
           </div>
 
           <button
-            onClick={() => navigate("/checkout-address")}
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-semibold transition"
+            
+              
+
+            onClick={() => {
+              if (cart.items.length === 0) {
+                 
+                  alert("Your cart is empty. Please add items before checkout.");
+                  return;
+                
+              }
+              else{
+                navigate("/checkout-address");
+              }
+               
+            }}
+            className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-lg font-semibold transition cursor-pointer"
           >
             Proceed to Checkout
           </button>

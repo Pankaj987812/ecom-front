@@ -22,6 +22,7 @@ export default function Home() {
   const addToCart = async (productId) => {
     const userId = localStorage.getItem("userId");
     if (!userId) return alert("Please log in first");
+    alert("Adding to cart...");
 
     const res = await api.post("/cart/add", { userId, productId });
 

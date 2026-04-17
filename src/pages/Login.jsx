@@ -80,7 +80,7 @@ export default function Login() {
                 className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-400"
               />
 
-              <button className="w-full bg-orange-500 text-white py-3 rounded-lg hover:bg-orange-600">
+              <button className="w-full bg-orange-500 text-white py-3 rounded-lg hover:bg-orange-600 cursor-pointer">
                 Login
               </button>
             </form>
