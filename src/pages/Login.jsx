@@ -46,7 +46,7 @@ export default function Login() {
       </div>
 
       {/* RIGHT SIDE */}
-      <div className="lg:w-1/2 w-full min-h-screen flex flex-col bg-gradient-to-br from-white to-orange-50 p-6">
+      <div className="lg:w-1/2 w-full min-h-screen flex flex-col bg-linear-to-br from-white to-orange-50 p-6">
 
         {/* CENTER LOGIN CARD */}
         <div className="flex flex-1 items-center justify-center">

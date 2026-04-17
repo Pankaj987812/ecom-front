@@ -12,6 +12,7 @@ export default function Home() {
 
     // agar backend {products:[...]} return kare
     setProducts(res.data.products || res.data);
+    console.log("API RESPONSE:", response.data);
   };
 
   useEffect(() => {

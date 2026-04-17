@@ -1,4 +1,4 @@
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../api/axios";
 import { Link } from "react-router";
 
@@ -6,62 +6,94 @@ export default function ProductList() {
     const [products, setProducts] = useState([]);
 
     const loadProducts = async () => {
-        const response = await api.get("/products");
-        setProducts(response.data);
-    }
+        try {
+            const response = await api.get("/products");
+
+            // safe handling (array ya object dono case)
+            setProducts(response.data.products || response.data || []);
+        } catch (err) {
+            console.error("Error loading products:", err);
+        }
+    };
 
     const deletedProduct = async (id) => {
-        try{
+        try {
             await api.delete(`/products/delete/${id}`);
             alert("Product deleted successfully!");
             loadProducts();
-        }catch(err){
+        } catch (err) {
             console.error("Error deleting product:", err);
         }
-    }
+    };
 
     useEffect(() => {
         loadProducts();
     }, []);
 
-    return(
+    return (
         <div className="max-w-4xl mx-auto mt-10">
+
             <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-bold">Product List</h2>
-                <Link to="/admin/products/add" className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 cursor-pointer">
+
+                <Link
+                    to="/admin/products/add"
+                    className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 cursor-pointer"
+                >
                     Add New Product
                 </Link>
-        </div>
+            </div>
 
-        <table className="w-full table-auto border-collapse border border-gray-200">
-            <thead>
-                <tr className="bg-gray-100">
-                    <th className="border border-gray-200 px-4 py-2">Title</th>
-                    <th className="border border-gray-200 px-4 py-2">Price</th>
-                    <th className="border border-gray-200 px-4 py-2">Stock</th>
-                    <th className="border border-gray-200 px-4 py-2">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {products.map((product) => (
-                    <tr key={product._id} className="text-center">
-                        <td className="border border-gray-200 px-4 py-2">{product.title}</td>
-                        <td className="border border-gray-200 px-4 py-2">${product.price}</td>
-                        <td className="border border-gray-200 px-4 py-2">{product.stock}</td>
-                        <td className="border border-gray-200 px-4 py-2">
-                            <Link to={`/admin/products/edit/${product._id}`} className="text-blue-500    mr-4 hover:cursor-pointer  border border-blue-500 px-2 py-1 rounded  hover:bg-blue-500 hover:text-white transition">
-                                Edit
-                            </Link>
-                            <button 
-                            onClick={()=>deletedProduct(product._id)}
-                            className="text-red-500  hover:cursor-pointer border border-red-500 px-2 py-1 rounded hover:bg-red-500 hover:text-white transition">
-                                Delete
-                            </button>
-                        </td>
+            <table className="w-full table-auto border-collapse border border-gray-200">
+
+                <thead>
+                    <tr className="bg-gray-100">
+                        <th className="border px-4 py-2">Title</th>
+                        <th className="border px-4 py-2">Price</th>
+                        <th className="border px-4 py-2">Stock</th>
+                        <th className="border px-4 py-2">Actions</th>
                     </tr>
-                ))}
-            </tbody>
+                </thead>
+
+                <tbody>
+                    {Array.isArray(products) && products.map((product) => (
+                        <tr key={product._id} className="text-center">
+
+                            <td className="border px-4 py-2">
+                                {product.title}
+                            </td>
+
+                            <td className="border px-4 py-2">
+                                ₹{product.price}
+                            </td>
+
+                            <td className="border px-4 py-2">
+                                {product.stock}
+                            </td>
+
+                            <td className="border px-4 py-2">
+
+                                <Link
+                                    to={`/admin/products/edit/${product._id}`}
+                                    className="text-blue-500 mr-4 border border-blue-500 px-2 py-1 rounded hover:bg-blue-500 hover:text-white transition"
+                                >
+                                    Edit
+                                </Link>
+
+                                <button
+                                    onClick={() => deletedProduct(product._id)}
+                                    className="text-red-500 border border-red-500 px-2 py-1 rounded hover:bg-red-500 hover:text-white transition"
+                                >
+                                    Delete
+                                </button>
+
+                            </td>
+
+                        </tr>
+                    ))}
+                </tbody>
+
             </table>
         </div>
-    )
+    );
 }

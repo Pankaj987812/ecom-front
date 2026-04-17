@@ -45,7 +45,7 @@ export default function OrderSuccess() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-orange-50 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-linear-to-br from-green-50 via-white to-orange-50 flex items-center justify-center p-6">
 
       <div className="w-full max-w-2xl bg-white shadow-2xl rounded-2xl p-8 border border-green-100">
 
