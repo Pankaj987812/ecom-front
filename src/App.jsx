@@ -10,7 +10,7 @@ import Navbar from "./components/Navbar";
 import Cart from "./pages/Cart";
 import CheckoutAddress from "./pages/CheckoutAddress";
 import Checkout from "./pages/Checkout";
-import OrderSuccess from "./pages/OrderSuccess.JSX";
+import OrderSuccess from "./pages/OrderSuccess.jsx";
 
 function Layout() {
   return (
