@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+ import { useEffect, useState } from "react";
 import api from "../api/axios";
 import { Link } from "react-router";
 
@@ -8,10 +8,10 @@ export default function Home() {
   const [category, setCategory] = useState("");
 
   const loadProducts = async () => {
-    const res = await api.get(
-      `/products?search=${search}&category=${category}`
-    );
-    setProducts(res.data);
+    const res = await api.get(`/products?search=${search}&category=${category}`);
+
+    // agar backend {products:[...]} return kare
+    setProducts(res.data.products || res.data);
   };
 
   useEffect(() => {
@@ -36,22 +36,22 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-100">
 
-      {/* HEADER / FILTER BAR */}
+      {/* HEADER */}
       <div className="sticky top-0 z-10 bg-white shadow-sm p-4 flex flex-col md:flex-row gap-3 items-center">
 
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search products..."
-          className="w-full md:w-1/2 px-4 py-2 border rounded-lg  "
+          className="w-full md:w-1/2 px-4 py-2 border rounded-lg"
         />
 
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="w-full md:w-1/4 px-4 py-2 border rounded-lg  "
+          className="w-full md:w-1/4 px-4 py-2 border rounded-lg"
         >
-          <option  value="">All Categories</option>
+          <option value="">All Categories</option>
           <option value="Mobile">Mobile</option>
           <option value="Laptop">Laptop</option>
           <option value="Tablet">Tablet</option>
@@ -65,13 +65,12 @@ export default function Home() {
       {/* PRODUCT GRID */}
       <div className="p-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-5">
 
-        {products.map((product) => (
+        {Array.isArray(products) && products.map((product) => (
           <div
             key={product._id}
             className="bg-white rounded-xl shadow-sm hover:shadow-xl transition overflow-hidden flex flex-col"
           >
 
-            {/* IMAGE */}
             <Link to={`/product/${product._id}`}>
               <div className="h-44 bg-white flex items-center justify-center p-3">
                 <img
@@ -82,7 +81,6 @@ export default function Home() {
               </div>
             </Link>
 
-            {/* CONTENT */}
             <div className="p-3 flex flex-col gap-2 flex-1">
 
               <h2 className="text-sm font-semibold line-clamp-2">
@@ -103,9 +101,11 @@ export default function Home() {
               >
                 Add to Cart
               </button>
+
             </div>
           </div>
         ))}
+
       </div>
     </div>
   );
